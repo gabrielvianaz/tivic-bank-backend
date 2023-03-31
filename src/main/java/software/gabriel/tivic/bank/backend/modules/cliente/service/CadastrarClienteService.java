@@ -33,6 +33,9 @@ public class CadastrarClienteService {
 
     @Autowired
     ClientePessoaJuridicaMapper clientePessoaJuridicaMapper;
+    
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void cadastrar(ClienteDTO clienteDTO) {
         validarEmail(clienteDTO.getEmail());
@@ -45,6 +48,8 @@ public class CadastrarClienteService {
             validarClientePessoaJuridica(clientePessoaJuridicaDTO);
             cliente = clientePessoaJuridicaMapper.toEntity(clientePessoaJuridicaDTO);
         }
+        
+        cliente.setSenha(bCryptPasswordEncoder.encode(cliente.getSenha()));
         
         clienteRepository.save(cliente);
     }

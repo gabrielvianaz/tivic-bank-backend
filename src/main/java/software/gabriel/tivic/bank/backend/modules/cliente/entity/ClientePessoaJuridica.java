@@ -7,6 +7,7 @@ package software.gabriel.tivic.bank.backend.modules.cliente.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -17,16 +18,17 @@ import java.time.LocalDate;
 @DiscriminatorValue(value = "PJ")
 public class ClientePessoaJuridica extends Cliente {
 
-    @Column(nullable = false, unique = true, length = 14)
+    @NotNull(message = "O campo 'cnpj' é obrigatório!")
+    @Column(unique = true, length = 14)
     private String cnpj;
 
-    @Column(nullable = false)
+    @NotNull(message = "O campo 'razaoSocial' é obrigatório!")
     private String razaoSocial;
 
-    @Column(nullable = false)
+    @NotNull(message = "O campo 'nomeFantasia' é obrigatório!")
     private String nomeFantasia;
 
-    @Column(nullable = false)
+    @NotNull(message = "O campo 'dataFundacao' é obrigatório!")
     private LocalDate dataFundacao;
 
     public ClientePessoaJuridica(String cnpj, String razaoSocial, String nomeFantasia, LocalDate dataFundacao, String telefone, String email, String senha) {
