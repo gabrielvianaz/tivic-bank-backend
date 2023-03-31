@@ -17,6 +17,7 @@ import software.gabriel.tivic.bank.backend.modules.cliente.entity.Cliente;
 import software.gabriel.tivic.bank.backend.modules.cliente.mapper.ClientePessoaFisicaMapper;
 import software.gabriel.tivic.bank.backend.modules.cliente.mapper.ClientePessoaJuridicaMapper;
 import software.gabriel.tivic.bank.backend.modules.cliente.repository.ClienteRepository;
+import software.gabriel.tivic.bank.backend.modules.conta.service.CadastrarContaCorrenteService;
 
 /**
  *
@@ -35,6 +36,9 @@ public class CadastrarClienteService {
     ClientePessoaJuridicaMapper clientePessoaJuridicaMapper;
     
     @Autowired
+    CadastrarContaCorrenteService cadastrarContaCorrenteService;
+    
+    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void cadastrar(ClienteDTO clienteDTO) {
@@ -51,7 +55,8 @@ public class CadastrarClienteService {
         
         cliente.setSenha(bCryptPasswordEncoder.encode(cliente.getSenha()));
         
-        clienteRepository.save(cliente);
+        cliente = clienteRepository.save(cliente);
+        cadastrarContaCorrenteService.cadastrar(cliente);
     }
 
     private void validarEmail(String email) {

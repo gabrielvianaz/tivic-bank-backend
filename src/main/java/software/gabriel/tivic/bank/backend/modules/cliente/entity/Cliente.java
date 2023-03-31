@@ -13,12 +13,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import software.gabriel.tivic.bank.backend.modules.conta.entity.ContaCorrente;
 
 /**
  *
@@ -43,6 +45,9 @@ public abstract class Cliente implements Serializable, UserDetails {
 
     @Column(nullable = false)
     private String senha;
+
+    @OneToOne(mappedBy = "cliente")
+    private ContaCorrente conta;
 
     public Cliente(String telefone, String email, String senha) {
         this.telefone = telefone;
@@ -83,6 +88,14 @@ public abstract class Cliente implements Serializable, UserDetails {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public ContaCorrente getConta() {
+        return conta;
+    }
+
+    public void setConta(ContaCorrente conta) {
+        this.conta = conta;
     }
 
     abstract public String getDocumento();
