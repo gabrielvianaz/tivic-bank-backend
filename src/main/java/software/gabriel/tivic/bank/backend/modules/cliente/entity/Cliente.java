@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import software.gabriel.tivic.bank.backend.modules.conta.entity.ContaCorrente;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCorrente;
 
 /**
  *

@@ -17,7 +17,7 @@ import software.gabriel.tivic.bank.backend.modules.cliente.entity.Cliente;
 import software.gabriel.tivic.bank.backend.modules.cliente.mapper.ClientePessoaFisicaMapper;
 import software.gabriel.tivic.bank.backend.modules.cliente.mapper.ClientePessoaJuridicaMapper;
 import software.gabriel.tivic.bank.backend.modules.cliente.repository.ClienteRepository;
-import software.gabriel.tivic.bank.backend.modules.conta.service.CadastrarContaCorrenteService;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.service.CadastrarContaCorrenteService;
 
 /**
  *

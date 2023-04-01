@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import software.gabriel.tivic.bank.backend.modules.cliente.exception.CnpjJaCadastradoException;
 import software.gabriel.tivic.bank.backend.modules.cliente.exception.CpfJaCadastradoException;
 import software.gabriel.tivic.bank.backend.modules.cliente.exception.EmailJaCadastradoException;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.exception.ContaDestinoNaoEncontradaException;
+import software.gabriel.tivic.bank.backend.modules.operacao.exception.SaldoInsuficienteException;
 
 /**
  *
@@ -22,7 +24,7 @@ import software.gabriel.tivic.bank.backend.modules.cliente.exception.EmailJaCada
 @ControllerAdvice
 public class GlobalExceptionHandler {
     
-//    Globais
+//    Global
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<BaseError> methodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
@@ -60,6 +62,27 @@ public class GlobalExceptionHandler {
         BaseError err = new BaseError(Instant.now(), status.value(), mensagem, request.getRequestURI());
         
         return ResponseEntity.status(status).body(err);
-    }        
+    }      
+    
+//    Operacao
+    
+    @ExceptionHandler(SaldoInsuficienteException.class)
+    public ResponseEntity<BaseError> saldoInsuficienteException(SaldoInsuficienteException e, HttpServletRequest request) {
+        String mensagem = e.getMessage();
+        HttpStatus status = HttpStatus.PAYMENT_REQUIRED;
+        BaseError err = new BaseError(Instant.now(), status.value(), mensagem, request.getRequestURI());
+        
+        return ResponseEntity.status(status).body(err);
+    }    
+    
+    @ExceptionHandler(ContaDestinoNaoEncontradaException.class)
+    public ResponseEntity<BaseError> contaDestinoNaoEncontradaException(ContaDestinoNaoEncontradaException e, HttpServletRequest request) {
+        String mensagem = e.getMessage();
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        BaseError err = new BaseError(Instant.now(), status.value(), mensagem, request.getRequestURI());
+        
+        return ResponseEntity.status(status).body(err);
+    }    
+    
     
 }

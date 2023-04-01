@@ -2,8 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package software.gabriel.tivic.bank.backend.modules.conta.entity;
+package software.gabriel.tivic.bank.backend.modules.contacorrente.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -14,15 +19,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import software.gabriel.tivic.bank.backend.modules.cliente.entity.Cliente;
+import software.gabriel.tivic.bank.backend.modules.operacao.entity.Operacao;
 
 /**
  *
  * @author gabriel
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
+@JsonSubTypes({
+    @Type(value = ContaCorrentePessoaFisica.class, name = "PF"),
+    @Type(value = ContaCorrentePessoaJuridica.class, name = "PJ"),})
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo", length = 2, discriminatorType = DiscriminatorType.STRING)
@@ -40,6 +53,12 @@ public abstract class ContaCorrente implements Serializable {
     @OneToOne
     @JoinColumn(name = "cliente_id", unique = true, nullable = false)
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "contaOrigem")
+    private List<Operacao> operacoesSaida = new ArrayList<>();
+
+    @OneToMany(mappedBy = "contaDestino")
+    private List<Operacao> operacoesEntrada = new ArrayList<>();
 
     public ContaCorrente(Cliente cliente) {
         this.cliente = cliente;
@@ -70,6 +89,30 @@ public abstract class ContaCorrente implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<Operacao> getOperacoesSaida() {
+        return operacoesSaida;
+    }
+
+    public void setOperacoesSaida(List<Operacao> operacoesSaida) {
+        this.operacoesSaida = operacoesSaida;
+    }
+
+    public List<Operacao> getOperacoesEntrada() {
+        return operacoesEntrada;
+    }
+
+    public void setOperacoesEntrada(List<Operacao> operacoesEntrada) {
+        this.operacoesEntrada = operacoesEntrada;
+    }
+
+    public void adicionarSaldo(Double valor) {
+        setSaldo(getSaldo() + valor);
+    }
+
+    public void subtrairSaldo(Double valor) {
+        setSaldo(getSaldo() - valor);
     }
 
     @Override
