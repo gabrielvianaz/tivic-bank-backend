@@ -5,6 +5,8 @@
 package software.gabriel.tivic.bank.backend.modules.contacorrente.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serializable;
 import software.gabriel.tivic.bank.backend.modules.cliente.dto.ClienteDTO;
 
@@ -12,7 +14,11 @@ import software.gabriel.tivic.bank.backend.modules.cliente.dto.ClienteDTO;
  *
  * @author gabriel
  */
-public class ContaCorrenteDTO implements Serializable {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ContaCorrentePessoaFisicaDTO.class, name = "PF"),
+    @JsonSubTypes.Type(value = ContaCorrentePessoaJuridicaDTO.class, name = "PJ"),})
+public abstract class ContaCorrenteDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

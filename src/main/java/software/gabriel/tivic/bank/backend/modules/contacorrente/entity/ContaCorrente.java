@@ -4,8 +4,6 @@
  */
 package software.gabriel.tivic.bank.backend.modules.contacorrente.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -32,7 +30,6 @@ import software.gabriel.tivic.bank.backend.modules.operacao.entity.Operacao;
  *
  * @author gabriel
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipo")
 @JsonSubTypes({
     @Type(value = ContaCorrentePessoaFisica.class, name = "PF"),
     @Type(value = ContaCorrentePessoaJuridica.class, name = "PJ"),})

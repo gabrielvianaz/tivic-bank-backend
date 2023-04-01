@@ -5,28 +5,26 @@
 package software.gabriel.tivic.bank.backend.modules.operacao.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCorrente;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.dto.ContaCorrenteDTO;
 
 /**
  *
  * @author gabriel
  */
 public class SaqueDTO extends OperacaoDTO {
+    
+    private ContaCorrenteDTO contaOrigem;
 
-    @JsonIgnoreProperties({"saldo, operacoesEntrada, operacoesSaida"})
-    private ContaCorrente contaOrigem;
-
-    @Override
-    public ContaCorrente getContaOrigem() {
+    @JsonIgnoreProperties(value = {"saldo"})
+    public ContaCorrenteDTO getContaOrigem() {
         return contaOrigem;
     }
 
-    public void setContaOrigem(ContaCorrente contaOrigem) {
+    public void setContaOrigem(ContaCorrenteDTO contaOrigem) {
         this.contaOrigem = contaOrigem;
     }
 
-    @Override
-    public ContaCorrente getContaDestino() {
+    public ContaCorrenteDTO getContaDestino() {
         return null;
     }
 

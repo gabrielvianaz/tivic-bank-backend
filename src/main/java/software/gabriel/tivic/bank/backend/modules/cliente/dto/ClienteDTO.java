@@ -13,7 +13,7 @@ import java.io.Serializable;
  *
  * @author gabriel
  */
-public class ClienteDTO implements Serializable {
+public abstract class ClienteDTO implements Serializable {
     
     private static final long serialVersionUID = 1L;
 

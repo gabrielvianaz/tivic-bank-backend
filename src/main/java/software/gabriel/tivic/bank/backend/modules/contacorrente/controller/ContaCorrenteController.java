@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.dto.ContaCorrenteDTO;
-import software.gabriel.tivic.bank.backend.modules.contacorrente.service.VisualizarDadosContaCorrenteService;
-import software.gabriel.tivic.bank.backend.modules.contacorrente.service.VisualizarOperacoesContaCorrenteService;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.service.VisualizarContaCorrenteService;
 import software.gabriel.tivic.bank.backend.modules.operacao.dto.OperacaoDTO;
 
 /**
@@ -22,21 +21,18 @@ import software.gabriel.tivic.bank.backend.modules.operacao.dto.OperacaoDTO;
 @RestController
 @RequestMapping("/contas")
 public class ContaCorrenteController {
-    
+
     @Autowired
-    VisualizarDadosContaCorrenteService visualizarDadosContaCorrenteService;
-    
-    @Autowired
-    VisualizarOperacoesContaCorrenteService visualizarOperacoesContaCorrenteService;
-    
+    VisualizarContaCorrenteService visualizarDadosContaCorrenteService;
+
     @GetMapping
-    public ResponseEntity<ContaCorrenteDTO> visualizarDados() {        
-        return ResponseEntity.ok(visualizarDadosContaCorrenteService.visualizar());
+    public ResponseEntity<ContaCorrenteDTO> visualizarDados() {
+        return ResponseEntity.ok(visualizarDadosContaCorrenteService.visualizarDados());
     }
     
     @GetMapping("/operacoes")
     public ResponseEntity<List<OperacaoDTO>> visualizarOperacoes() {
-        return ResponseEntity.ok(visualizarOperacoesContaCorrenteService.visualizar());
+        return ResponseEntity.ok(visualizarDadosContaCorrenteService.visualizarOperacoes());
     }
-    
+
 }

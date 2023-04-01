@@ -11,7 +11,7 @@ import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCor
 import software.gabriel.tivic.bank.backend.modules.contacorrente.repository.ContaCorrenteRepository;
 import software.gabriel.tivic.bank.backend.modules.operacao.dto.SaqueDTO;
 import software.gabriel.tivic.bank.backend.modules.operacao.entity.Saque;
-import software.gabriel.tivic.bank.backend.modules.operacao.mapper.SaqueMapper;
+import software.gabriel.tivic.bank.backend.modules.operacao.mapper.OperacaoMapper;
 import software.gabriel.tivic.bank.backend.modules.operacao.repository.OperacaoRepository;
 import software.gabriel.tivic.bank.backend.modules.operacao.util.OperacaoUtils;
 import software.gabriel.tivic.bank.backend.modules.security.util.SecurityUtils;
@@ -30,12 +30,12 @@ public class RealizarSaqueService {
     ContaCorrenteRepository contaCorrenteRepository;
 
     @Autowired
-    SaqueMapper saqueMapper;
+    OperacaoMapper operacaoMapper;
 
     public void sacar(SaqueDTO saqueDTO) {
         ContaCorrente contaOrigem = contaCorrenteRepository.findByCliente(SecurityUtils.getClienteAutenticado());
         OperacaoUtils.validarOperacaoSaida(saqueDTO.getValor(), contaOrigem.getSaldo());
-        Saque saque = saqueMapper.toEntity(saqueDTO);
+        Saque saque = operacaoMapper.toSaqueEntity(saqueDTO);
         saque.setContaOrigem(contaOrigem);
         contaOrigem.subtrairSaldo(saque.getValor());
         saque.setMomento(LocalDateTime.now());

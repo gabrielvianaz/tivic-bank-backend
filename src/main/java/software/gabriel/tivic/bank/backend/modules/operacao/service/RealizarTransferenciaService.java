@@ -12,7 +12,8 @@ import software.gabriel.tivic.bank.backend.modules.contacorrente.exception.Conta
 import software.gabriel.tivic.bank.backend.modules.contacorrente.repository.ContaCorrenteRepository;
 import software.gabriel.tivic.bank.backend.modules.operacao.dto.TransferenciaDTO;
 import software.gabriel.tivic.bank.backend.modules.operacao.entity.Transferencia;
-import software.gabriel.tivic.bank.backend.modules.operacao.mapper.TransferenciaMapper;
+import software.gabriel.tivic.bank.backend.modules.operacao.exception.TransferenciaPropriaContaException;
+import software.gabriel.tivic.bank.backend.modules.operacao.mapper.OperacaoMapper;
 import software.gabriel.tivic.bank.backend.modules.operacao.repository.OperacaoRepository;
 import software.gabriel.tivic.bank.backend.modules.operacao.util.OperacaoUtils;
 import software.gabriel.tivic.bank.backend.modules.security.util.SecurityUtils;
@@ -31,15 +32,13 @@ public class RealizarTransferenciaService {
     ContaCorrenteRepository contaCorrenteRepository;
 
     @Autowired
-    TransferenciaMapper transferenciaMapper;
+    OperacaoMapper operacaoMapper;
 
     public void transferir(TransferenciaDTO transferenciaDTO) {
-        Transferencia transferencia = transferenciaMapper.toEntity(transferenciaDTO);
-        validarContaDestino(transferencia.getContaDestino());
-        ContaCorrente contaOrigem = contaCorrenteRepository.findByCliente(SecurityUtils.getClienteAutenticado());        
-        OperacaoUtils.validarOperacaoSaida(transferencia.getValor(), contaOrigem.getSaldo());        
-        ContaCorrente contaDestino = contaCorrenteRepository.findById(transferencia.getContaDestino().getId()).get();
-        transferencia.setContaDestino(contaDestino);
+        Transferencia transferencia = operacaoMapper.toTransferenciaEntity(transferenciaDTO);
+        ContaCorrente contaOrigem = contaCorrenteRepository.findByCliente(SecurityUtils.getClienteAutenticado());
+        transferencia.setContaDestino(validarContaDestino(transferencia.getContaDestino(), contaOrigem));
+        OperacaoUtils.validarOperacaoSaida(transferencia.getValor(), contaOrigem.getSaldo());
         transferencia.setContaOrigem(contaOrigem);
         contaOrigem.subtrairSaldo(transferencia.getValor());
         transferencia.getContaDestino().adicionarSaldo(transferencia.getValor());
@@ -47,8 +46,12 @@ public class RealizarTransferenciaService {
         operacaoRepository.save(transferencia);
     }
 
-    private void validarContaDestino(ContaCorrente contaDestino) {
-        contaCorrenteRepository.findById(contaDestino.getId()).orElseThrow(ContaDestinoNaoEncontradaException::new);
+    private ContaCorrente validarContaDestino(ContaCorrente contaDestino, ContaCorrente contaOrigem) {
+        contaDestino = contaCorrenteRepository.findById(contaDestino.getId()).orElseThrow(ContaDestinoNaoEncontradaException::new);
+        if (contaDestino.equals(contaOrigem)) {
+            throw new TransferenciaPropriaContaException();
+        }
+        return contaDestino;
     }
 
 }

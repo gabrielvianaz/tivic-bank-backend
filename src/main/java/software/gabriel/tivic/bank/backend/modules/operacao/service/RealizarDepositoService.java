@@ -11,7 +11,7 @@ import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCor
 import software.gabriel.tivic.bank.backend.modules.contacorrente.repository.ContaCorrenteRepository;
 import software.gabriel.tivic.bank.backend.modules.operacao.dto.DepositoDTO;
 import software.gabriel.tivic.bank.backend.modules.operacao.entity.Deposito;
-import software.gabriel.tivic.bank.backend.modules.operacao.mapper.DepositoMapper;
+import software.gabriel.tivic.bank.backend.modules.operacao.mapper.OperacaoMapper;
 import software.gabriel.tivic.bank.backend.modules.operacao.repository.OperacaoRepository;
 import software.gabriel.tivic.bank.backend.modules.security.util.SecurityUtils;
 
@@ -29,10 +29,10 @@ public class RealizarDepositoService {
     ContaCorrenteRepository contaCorrenteRepository;
     
     @Autowired
-    DepositoMapper depositoMapper;
+    OperacaoMapper operacaoMapper;
     
     public void depositar(DepositoDTO depositoDTO) {        
-        Deposito deposito = depositoMapper.toEntity(depositoDTO);
+        Deposito deposito = operacaoMapper.toDepositoEntity(depositoDTO);
         ContaCorrente contaDestino = contaCorrenteRepository.findByCliente(SecurityUtils.getClienteAutenticado());
         deposito.setContaDestino(contaDestino);
         contaDestino.adicionarSaldo(deposito.getValor());

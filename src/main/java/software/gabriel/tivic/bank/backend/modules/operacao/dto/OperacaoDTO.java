@@ -4,17 +4,19 @@
  */
 package software.gabriel.tivic.bank.backend.modules.operacao.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCorrente;
 
 /**
  *
  * @author gabriel
  */
+@JsonInclude(Include.NON_NULL)
 public abstract class OperacaoDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,9 +53,5 @@ public abstract class OperacaoDTO implements Serializable {
     public void setValor(Double valor) {
         this.valor = valor;
     }
-    
-    public abstract ContaCorrente getContaOrigem();
-    
-    public abstract ContaCorrente getContaDestino();
 
 }

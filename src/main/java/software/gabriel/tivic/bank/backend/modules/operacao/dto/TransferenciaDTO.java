@@ -6,7 +6,7 @@ package software.gabriel.tivic.bank.backend.modules.operacao.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
-import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCorrente;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.dto.ContaCorrenteDTO;
 
 /**
  *
@@ -14,28 +14,26 @@ import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCor
  */
 public class TransferenciaDTO extends OperacaoDTO {
 
-    @JsonIgnoreProperties({"saldo, operacoesEntrada, operacoesSaida"})
-    private ContaCorrente contaOrigem;
+    @JsonIgnoreProperties(value = {"saldo"})
+    private ContaCorrenteDTO contaOrigem;
 
-    @JsonIgnoreProperties({"saldo, operacoesEntrada, operacoesSaida"})
+    @JsonIgnoreProperties(value = {"saldo"})
     @NotNull(message = "O campo 'contaDestino' é obrigatório!")
-    private ContaCorrente contaDestino;
+    private ContaCorrenteDTO contaDestino;
 
-    @Override
-    public ContaCorrente getContaOrigem() {
+    public ContaCorrenteDTO getContaOrigem() {
         return contaOrigem;
     }
 
-    public void setContaOrigem(ContaCorrente contaOrigem) {
+    public void setContaOrigem(ContaCorrenteDTO contaOrigem) {
         this.contaOrigem = contaOrigem;
     }
 
-    @Override
-    public ContaCorrente getContaDestino() {
+    public ContaCorrenteDTO getContaDestino() {
         return contaDestino;
     }
 
-    public void setContaDestino(ContaCorrente contaDestino) {
+    public void setContaDestino(ContaCorrenteDTO contaDestino) {
         this.contaDestino = contaDestino;
     }
 

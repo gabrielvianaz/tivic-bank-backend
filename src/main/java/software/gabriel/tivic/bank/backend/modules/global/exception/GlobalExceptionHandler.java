@@ -16,6 +16,7 @@ import software.gabriel.tivic.bank.backend.modules.cliente.exception.CpfJaCadast
 import software.gabriel.tivic.bank.backend.modules.cliente.exception.EmailJaCadastradoException;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.exception.ContaDestinoNaoEncontradaException;
 import software.gabriel.tivic.bank.backend.modules.operacao.exception.SaldoInsuficienteException;
+import software.gabriel.tivic.bank.backend.modules.operacao.exception.TransferenciaPropriaContaException;
 
 /**
  *
@@ -70,6 +71,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<BaseError> saldoInsuficienteException(SaldoInsuficienteException e, HttpServletRequest request) {
         String mensagem = e.getMessage();
         HttpStatus status = HttpStatus.PAYMENT_REQUIRED;
+        BaseError err = new BaseError(Instant.now(), status.value(), mensagem, request.getRequestURI());
+        
+        return ResponseEntity.status(status).body(err);
+    }    
+    
+    @ExceptionHandler(TransferenciaPropriaContaException.class)
+    public ResponseEntity<BaseError> transferenciaPropriaContaException(TransferenciaPropriaContaException e, HttpServletRequest request) {
+        String mensagem = e.getMessage();
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         BaseError err = new BaseError(Instant.now(), status.value(), mensagem, request.getRequestURI());
         
         return ResponseEntity.status(status).body(err);
