@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCorrente;
-import software.gabriel.tivic.bank.backend.modules.contacorrente.exception.ContaDestinoNaoEncontradaException;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.exception.ContaNaoEncontradaException;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.repository.ContaCorrenteRepository;
 import software.gabriel.tivic.bank.backend.modules.operacao.dto.TransferenciaDTO;
 import software.gabriel.tivic.bank.backend.modules.operacao.entity.Transferencia;
@@ -47,7 +47,7 @@ public class RealizarTransferenciaService {
     }
 
     private ContaCorrente validarContaDestino(ContaCorrente contaDestino, ContaCorrente contaOrigem) {
-        contaDestino = contaCorrenteRepository.findById(contaDestino.getId()).orElseThrow(ContaDestinoNaoEncontradaException::new);
+        contaDestino = contaCorrenteRepository.findById(contaDestino.getId()).orElseThrow(ContaNaoEncontradaException::new);
         if (contaDestino.equals(contaOrigem)) {
             throw new TransferenciaPropriaContaException();
         }

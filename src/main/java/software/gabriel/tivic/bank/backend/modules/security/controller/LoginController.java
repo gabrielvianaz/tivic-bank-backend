@@ -25,10 +25,10 @@ import software.gabriel.tivic.bank.backend.modules.security.service.TokenService
 @RestController
 @RequestMapping("/login")
 public class LoginController {
-    
-     @Autowired
+
+    @Autowired
     private AuthenticationManager authenticationManager;
-    
+
     @Autowired
     private TokenService tokenService;
 
@@ -37,12 +37,12 @@ public class LoginController {
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                 = new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getSenha());
-        
+
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        
+
         var cliente = (Cliente) authentication.getPrincipal();
 
         return ResponseEntity.ok(tokenService.gerarToken(cliente));
     }
-    
+
 }

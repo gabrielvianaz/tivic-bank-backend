@@ -4,18 +4,18 @@
  */
 package software.gabriel.tivic.bank.backend.modules.contacorrente.service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.dto.ContaCorrenteDTO;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCorrente;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.mapper.ContaCorrenteMapper;
 import software.gabriel.tivic.bank.backend.modules.contacorrente.repository.ContaCorrenteRepository;
 import software.gabriel.tivic.bank.backend.modules.operacao.dto.OperacaoDTO;
+import software.gabriel.tivic.bank.backend.modules.operacao.entity.Operacao;
 import software.gabriel.tivic.bank.backend.modules.operacao.mapper.OperacaoMapper;
+import software.gabriel.tivic.bank.backend.modules.operacao.repository.OperacaoRepository;
 import software.gabriel.tivic.bank.backend.modules.security.util.SecurityUtils;
 
 /**
@@ -23,10 +23,13 @@ import software.gabriel.tivic.bank.backend.modules.security.util.SecurityUtils;
  * @author gabriel
  */
 @Service
-public class VisualizarContaCorrenteService {
+public class VisualizarPropriaContaCorrenteService {
 
     @Autowired
     ContaCorrenteRepository contaCorrenteRepository;
+    
+    @Autowired
+    OperacaoRepository operacaoRepository;
 
     @Autowired
     ContaCorrenteMapper contaCorrenteMapper;
@@ -40,10 +43,11 @@ public class VisualizarContaCorrenteService {
         return contaCorrenteMapper.toDTO(contaCorrente);
     }
 
-    public List<OperacaoDTO> visualizarOperacoes() {
+    public Page<OperacaoDTO> visualizarOperacoes(Pageable page) {
         ContaCorrente contaCorrente = contaCorrenteRepository.findByCliente(SecurityUtils.getClienteAutenticado());
-        List<OperacaoDTO> operacoes = Stream.concat(contaCorrente.getOperacoesEntrada().stream(), contaCorrente.getOperacoesSaida().stream()).map(operacao -> operacaoMapper.toDto(operacao)).toList();
-        return operacoes;
+        Page<Operacao> operacoes = operacaoRepository.findByContaOrigemOrContaDestinoOrderById(contaCorrente, contaCorrente, page);
+        
+        return operacoes.map(operacao -> operacaoMapper.toDto(operacao));
     }
 
 }

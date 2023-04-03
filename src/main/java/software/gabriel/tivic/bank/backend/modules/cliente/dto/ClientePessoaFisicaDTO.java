@@ -37,6 +37,7 @@ public class ClientePessoaFisicaDTO extends ClienteDTO {
         this.cpf = cpf;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }

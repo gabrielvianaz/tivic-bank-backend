@@ -65,4 +65,9 @@ public class ClientePessoaJuridicaDTO extends ClienteDTO {
         this.dataFundacao = dataFundacao;
     }
 
+    @Override
+    public String getNome() {
+        return this.razaoSocial;
+    }
+
 }

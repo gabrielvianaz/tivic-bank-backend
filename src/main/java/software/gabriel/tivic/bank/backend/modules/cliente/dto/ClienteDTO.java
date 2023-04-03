@@ -4,6 +4,8 @@
  */
 package software.gabriel.tivic.bank.backend.modules.cliente.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import java.io.Serializable;
  *
  * @author gabriel
  */
+@JsonInclude(Include.NON_NULL)
 public abstract class ClienteDTO implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -63,5 +66,7 @@ public abstract class ClienteDTO implements Serializable {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+    
+    public abstract String getNome();
 
 }

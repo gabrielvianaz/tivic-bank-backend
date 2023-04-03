@@ -44,9 +44,9 @@ public interface ContaCorrenteMapper {
     ContaCorrentePessoaFisicaDTO toDTO(ContaCorrentePessoaFisica entity);
 
     ContaCorrentePessoaJuridicaDTO toDTO(ContaCorrentePessoaJuridica entity);
-    
+
     ContaCorrentePessoaFisica toEntity(ContaCorrentePessoaFisicaDTO dto);
-    
+
     ContaCorrentePessoaJuridica toEntity(ContaCorrentePessoaJuridicaDTO dto);
 
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import software.gabriel.tivic.bank.backend.modules.cliente.exception.CnpjJaCadastradoException;
 import software.gabriel.tivic.bank.backend.modules.cliente.exception.CpfJaCadastradoException;
 import software.gabriel.tivic.bank.backend.modules.cliente.exception.EmailJaCadastradoException;
-import software.gabriel.tivic.bank.backend.modules.contacorrente.exception.ContaDestinoNaoEncontradaException;
+import software.gabriel.tivic.bank.backend.modules.contacorrente.exception.ContaNaoEncontradaException;
 import software.gabriel.tivic.bank.backend.modules.operacao.exception.SaldoInsuficienteException;
 import software.gabriel.tivic.bank.backend.modules.operacao.exception.TransferenciaPropriaContaException;
 
@@ -85,8 +85,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }    
     
-    @ExceptionHandler(ContaDestinoNaoEncontradaException.class)
-    public ResponseEntity<BaseError> contaDestinoNaoEncontradaException(ContaDestinoNaoEncontradaException e, HttpServletRequest request) {
+    @ExceptionHandler(ContaNaoEncontradaException.class)
+    public ResponseEntity<BaseError> contaDestinoNaoEncontradaException(ContaNaoEncontradaException e, HttpServletRequest request) {
         String mensagem = e.getMessage();
         HttpStatus status = HttpStatus.NOT_FOUND;
         BaseError err = new BaseError(Instant.now(), status.value(), mensagem, request.getRequestURI());

@@ -13,7 +13,7 @@ import software.gabriel.tivic.bank.backend.modules.contacorrente.entity.ContaCor
  * @author gabriel
  */
 public interface ContaCorrenteRepository extends JpaRepository<ContaCorrente, Long> {
-    
+
     ContaCorrente findByCliente(Cliente cliente);
-    
+
 }

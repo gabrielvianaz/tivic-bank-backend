@@ -36,19 +36,19 @@ public class OperacaoController {
     @Autowired
     RealizarTransferenciaService realizarTransferenciaService;
 
-    @PostMapping("/depositos")
+    @PostMapping("/depositar")
     public ResponseEntity<Void> depositar(@RequestBody @Valid DepositoDTO depositoDTO) {
         realizarDepositoService.depositar(depositoDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/saques")
+    @PostMapping("/sacar")
     public ResponseEntity<Void> sacar(@RequestBody @Valid SaqueDTO saqueDTO) {
         realizarSaqueService.sacar(saqueDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/transferencias")
+    @PostMapping("/transferir")
     public ResponseEntity<Void> transferir(@RequestBody @Valid TransferenciaDTO transferenciaDTO) {        
         realizarTransferenciaService.transferir(transferenciaDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();

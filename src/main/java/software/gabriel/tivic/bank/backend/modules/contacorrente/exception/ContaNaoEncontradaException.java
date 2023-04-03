@@ -8,10 +8,10 @@ package software.gabriel.tivic.bank.backend.modules.contacorrente.exception;
  *
  * @author gabriel
  */
-public class ContaDestinoNaoEncontradaException extends RuntimeException {
+public class ContaNaoEncontradaException extends RuntimeException {
     
-    public ContaDestinoNaoEncontradaException() {
-        super("A conta de destino informada não foi encontrada!");
+    public ContaNaoEncontradaException() {
+        super("A conta informada não foi encontrada!");
     }
     
 }
